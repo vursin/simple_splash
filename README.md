@@ -1,18 +1,59 @@
-# simple_splash
+# Simple Splash
 
-A new Flutter plugin project.
+Help you easier to create a splah screen for Flutter app.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
-
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-The plugin project was generated without specifying the `--platforms` flag, no platforms are currently supported.
-To add platforms, run `flutter create -t plugin --platforms <platforms> .` in this directory.
-You can also find a detailed instruction on how to add platforms in the `pubspec.yaml` at https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
+``` dart
+SimpleSplash(
+  showStatusBar: false,
+  aboveLogoChild: Column(
+    children: const [
+    Text(
+      'Flutter',
+      style: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      ),
+    ),
+    SizedBox(
+      height: 12,
+    ),
+    SizedBox(
+      width: 100,
+      child: LinearProgressIndicator(
+      color: Colors.green,
+      ),
+    ),
+    ],
+  ),
+  logo: FlutterLogo(
+    size: MediaQuery.of(context).size.shortestSide / 2,
+  ),
+  belowLogoChild: Column(
+    children: const [
+    Text(
+      'Building Your Beatiful App',
+      style: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      ),
+    ),
+    SizedBox(
+      height: 12,
+    ),
+    SizedBox(
+      width: 100,
+      child: LinearProgressIndicator(
+      color: Colors.green,
+      ),
+    ),
+    ],
+  ),
+  backgroundGradient: const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: <Color>[Colors.white, Colors.blue],
+  ),
+);
+```

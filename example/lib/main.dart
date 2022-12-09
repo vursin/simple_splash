@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:simple_splash/simple_splash.dart';
 
 void main() {
@@ -9,55 +6,80 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  final String _platformVersion = 'Unknown';
-  // final _simpleSplashPlugin = SimpleSplash();
+  bool isLoaded = false;
 
   @override
   void initState() {
+    // Show splash screen 3 seconds
+    Future.delayed(const Duration(seconds: 3))
+        .then((value) => setState(() => isLoaded = true));
     super.initState();
-    initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      // platformVersion =
-      //     await _simpleSplashPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      // _platformVersion = platformVersion;
-    });
-  }
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
-    );
+    return isLoaded
+        ? const Center(
+            child: Text('Done'),
+          )
+        : SimpleSplash(
+            showStatusBar: false,
+            aboveLogoChild: Column(
+              children: const [
+                Text(
+                  'Flutter',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  width: 100,
+                  child: LinearProgressIndicator(
+                    color: Colors.green,
+                  ),
+                ),
+              ],
+            ),
+            logo: FlutterLogo(
+              size: MediaQuery.of(context).size.shortestSide / 2,
+            ),
+            belowLogoChild: Column(
+              children: const [
+                Text(
+                  'Building Your Beatiful App',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  width: 100,
+                  child: LinearProgressIndicator(
+                    color: Colors.green,
+                  ),
+                ),
+              ],
+            ),
+            backgroundGradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[Colors.white, Colors.blue],
+            ),
+          );
   }
 }
